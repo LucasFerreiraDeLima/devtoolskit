@@ -5,4 +5,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
 };
 
+module.exports = {
+  devIndicators: false,
+}
+
 export default nextConfig;
