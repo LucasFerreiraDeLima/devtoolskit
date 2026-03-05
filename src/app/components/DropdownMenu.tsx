@@ -51,206 +51,27 @@ export default function DropdownMenu() {
         tabIndex={-1}
         style={{ WebkitOverflowScrolling: "touch" }}
       >
-        <li>
-          <Link
-            href="/tools/word-counter"
-            className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 rounded-t-lg text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            Word Counter
-          </Link>
-        </li>
-          <li>
-            <Link
-              href="/tools/color-converter"
-              className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-              onClick={() => setOpen(false)}
-              role="menuitem"
-            >
-              Color Converter
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/tools/random-string"
-              className="block px-4 py-2 hover:bg-purple-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-              onClick={() => setOpen(false)}
-              role="menuitem"
-            >
-              Random String Generator
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/tools/random-number"
-              className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-              onClick={() => setOpen(false)}
-              role="menuitem"
-            >
-              Random Number Generator
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/tools/password-generator"
-              className="block px-4 py-2 hover:bg-green-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-              onClick={() => setOpen(false)}
-              role="menuitem"
-            >
-              Password Generator
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/tools/text-diff"
-              className="block px-4 py-2 hover:bg-cyan-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-              onClick={() => setOpen(false)}
-              role="menuitem"
-            >
-              Text Diff Checker
-            </Link>
-          </li>
-        <li>
-          <Link
-            href="/tools/case-converter"
-            className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            Case Converter
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/tools/base64"
-            className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            Base64 Encode / Decode
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/tools/json-formatter"
-            className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            JSON Formatter / Validator
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/tools/json-to-csv"
-            className="block px-4 py-2 hover:bg-yellow-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            JSON to CSV Converter
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/tools/json-to-xml"
-            className="block px-4 py-2 hover:bg-purple-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            JSON to XML Converter
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/tools/regex-tester"
-            className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            Regex Tester
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/tools/timestamp-converter"
-            className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            Timestamp Converter
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/tools/uuid-generator"
-            className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 rounded-b-lg text-slate-700 dark:text-slate-200"
-            onClick={() => setOpen(false)}
-            role="menuitem"
-          >
-            UUID Generator
-          </Link>
-        </li>
-          <li>
-            <Link
-              href="/tools/jwt-decoder"
-              className="block px-4 py-2 hover:bg-indigo-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-              onClick={() => setOpen(false)}
-              role="menuitem"
-            >
-              JWT Decoder
-            </Link>
-          </li>
-            <li>
-              <Link
-                href="/tools/url-encoder"
-                className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-                onClick={() => setOpen(false)}
-                role="menuitem"
-              >
-                URL Encoder / Decoder
-              </Link>
-            </li>
-              <li>
-                <Link
-                  href="/tools/html-encoder"
-                  className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-                  onClick={() => setOpen(false)}
-                  role="menuitem"
-                >
-                  HTML Encoder / Decoder
-                </Link>
-              </li>
-                <li>
-                  <Link
-                    href="/tools/hash-generator"
-                    className="block px-4 py-2 hover:bg-green-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-                    onClick={() => setOpen(false)}
-                    role="menuitem"
-                  >
-                    Hash Generator
-                  </Link>
-                </li>
-                  <li>
-                    <Link
-                      href="/tools/text-sorter"
-                      className="block px-4 py-2 hover:bg-yellow-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-                      onClick={() => setOpen(false)}
-                      role="menuitem"
-                    >
-                      Text Sorter
-                    </Link>
-                  </li>
-                    <li>
-                      <Link
-                        href="/tools/remove-duplicate-lines"
-                        className="block px-4 py-2 hover:bg-red-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200"
-                        onClick={() => setOpen(false)}
-                        role="menuitem"
-                      >
-                        Remove Duplicate Lines
-                      </Link>
-                    </li>
+        {/* Links das ferramentas em ordem alfabética */}
+        <li><Link href="/tools/base64" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 rounded-t-lg text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Base64 Encode / Decode</Link></li>
+        <li><Link href="/tools/case-converter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Case Converter</Link></li>
+        <li><Link href="/tools/color-converter" className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Color Converter</Link></li>
+        <li><Link href="/tools/hash-generator" className="block px-4 py-2 hover:bg-green-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Hash Generator</Link></li>
+        <li><Link href="/tools/html-encoder" className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">HTML Encoder / Decoder</Link></li>
+        <li><Link href="/tools/json-formatter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JSON Formatter / Validator</Link></li>
+        <li><Link href="/tools/json-to-csv" className="block px-4 py-2 hover:bg-yellow-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JSON to CSV Converter</Link></li>
+        <li><Link href="/tools/json-to-xml" className="block px-4 py-2 hover:bg-purple-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JSON to XML Converter</Link></li>
+        <li><Link href="/tools/jwt-decoder" className="block px-4 py-2 hover:bg-indigo-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JWT Decoder</Link></li>
+        <li><Link href="/tools/password-generator" className="block px-4 py-2 hover:bg-green-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Password Generator</Link></li>
+        <li><Link href="/tools/random-number" className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Random Number Generator</Link></li>
+        <li><Link href="/tools/random-string" className="block px-4 py-2 hover:bg-purple-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Random String Generator</Link></li>
+        <li><Link href="/tools/regex-tester" className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Regex Tester</Link></li>
+        <li><Link href="/tools/remove-duplicate-lines" className="block px-4 py-2 hover:bg-red-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Remove Duplicate Lines</Link></li>
+        <li><Link href="/tools/text-diff" className="block px-4 py-2 hover:bg-cyan-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Text Diff Checker</Link></li>
+        <li><Link href="/tools/text-sorter" className="block px-4 py-2 hover:bg-yellow-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Text Sorter</Link></li>
+        <li><Link href="/tools/timestamp-converter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Timestamp Converter</Link></li>
+        <li><Link href="/tools/url-encoder" className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">URL Encoder / Decoder</Link></li>
+        <li><Link href="/tools/uuid-generator" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 rounded-b-lg text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">UUID Generator</Link></li>
+        <li><Link href="/tools/word-counter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Word Counter</Link></li>
       </ul>
     </li>
   );
