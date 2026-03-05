@@ -20,7 +20,7 @@ export default function PrivacyPage() {
         </p>
         <h2 className="text-xl font-semibold mt-6 mb-2">4. Contact</h2>
         <p className="mb-2 text-slate-700 dark:text-slate-300">
-          If you have any questions about this privacy policy, please contact us at <a href="mailto:contact@devtoolskit.com" className="text-sky-600 dark:text-sky-400 underline">contact@devtoolskit.com</a>.
+          If you have any questions about this privacy policy, please contact me at <a href="mailto:lucsecundario1978@gmail.com" className="hover:underline text-sky-600">lucsecundario1978@gmail.com</a>.
         </p>
         <p className="text-xs text-slate-500 mt-8">This policy may be updated from time to time. Last updated: March 2026.</p>
       </div>
