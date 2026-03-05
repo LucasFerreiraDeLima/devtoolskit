@@ -138,12 +138,16 @@ export default function RootLayout({
                   <div>&copy; {new Date().getFullYear()} DevTools Kit. All rights reserved.</div>
                 <div>
                   <Link href="/privacy" className="hover:underline" tabIndex={0} aria-label="Privacy Policy">
-                    Privacy
+                    Privacy Policy
                   </Link>
                 </div>
               </div>
             </div>
           </footer>
+              <div className="mt-4 text-center text-xs text-slate-500 dark:text-slate-400">
+                Website developed by <a href="https://www.linkedin.com/in/lucas-lima-2b929119a" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-semibold">Lucas Lima</a>.<br />
+                Contact me if you find any issue: <a href="mailto:lucsecundario1978@gmail.com" className="hover:underline">lucsecundario1978@gmail.com</a>
+              </div>
         </div>
       </body>
     </html>
