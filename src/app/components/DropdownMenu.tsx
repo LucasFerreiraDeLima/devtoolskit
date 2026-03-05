@@ -47,8 +47,9 @@ export default function DropdownMenu() {
         <svg className={`w-4 h-4 ml-1 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </button>
       <ul
-        className={`absolute left-0 mt-2 min-w-[180px] rounded-lg bg-white dark:bg-slate-900 shadow-lg border border-slate-100 dark:border-slate-700 transition-all z-50 ${open ? "opacity-100 pointer-events-auto scale-100" : "opacity-0 pointer-events-none scale-95"}`}
+        className={`absolute left-0 mt-2 min-w-[180px] rounded-lg bg-white dark:bg-slate-900 shadow-lg border border-slate-100 dark:border-slate-700 transition-all z-50 ${open ? "opacity-100 pointer-events-auto scale-100" : "opacity-0 pointer-events-none scale-95"} max-h-[60vh] overflow-y-auto overscroll-contain`}
         tabIndex={-1}
+        style={{ WebkitOverflowScrolling: "touch" }}
       >
         <li>
           <Link

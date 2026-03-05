@@ -15,22 +15,16 @@ export default function Page() {
       title="Base64 Encoder / Decoder"
       description="Encode text to Base64 or decode Base64 instantly with this free online tool."
     >
-      {/* Ad below title */}
+      {/* Ad below title, mobile-friendly */}
       <div className="mb-6">
         <AdPlaceholder />
       </div>
 
       {/* Tool interface */}
-      {/* Client component only here! */}
       <Base64Client />
 
-      {/* Ad below tool interface */}
-      <div className="mb-8">
-        <AdPlaceholder />
-      </div>
-
-      {/* SEO/Educational content */}
-      <section className="space-y-8 bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 sm:p-10 border border-slate-100 dark:border-slate-800 mb-8">
+      {/* SEO/Educational content, mobile-friendly */}
+      <section className="space-y-8 bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 sm:p-10 border border-slate-100 dark:border-slate-800 mb-8 mt-8">
         <article>
           <h2 className="text-xl font-bold mb-2">What is Base64 encoding?</h2>
           <p className="text-slate-700 dark:text-slate-300">
