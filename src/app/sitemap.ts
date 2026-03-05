@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = "https://devtoolskit.com";
+const BASE_URL = "https://devtoolskit.net";
 
 const tools = [
   "word-counter",
