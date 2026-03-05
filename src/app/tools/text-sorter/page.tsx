@@ -62,36 +62,6 @@ export default function TextSorterPage() {
             <li>Sorted by length: apple, orange, banana</li>
           </ul>
         </article>
-        <article>
-          <div className="mt-4 text-sm text-sky-700 dark:text-sky-300">
-            Try our other tools:{" "}
-            <Link href="/tools/word-counter" className="underline hover:text-sky-600">Word Counter</Link>
-            {", "}
-            <Link href="/tools/case-converter" className="underline hover:text-sky-600">Case Converter</Link>
-            {", "}
-            <Link href="/tools/base64" className="underline hover:text-sky-600">Base64 Encode / Decode</Link>
-            {", "}
-            <Link href="/tools/timestamp-converter" className="underline hover:text-sky-600">Timestamp Converter</Link>
-            {", "}
-            <Link href="/tools/uuid-generator" className="underline hover:text-sky-600">UUID Generator</Link>
-            {", "}
-            <Link href="/tools/json-formatter" className="underline hover:text-sky-600">JSON Formatter</Link>
-            {", "}
-            <Link href="/tools/json-to-csv" className="underline hover:text-sky-600">JSON to CSV Converter</Link>
-            {", "}
-            <Link href="/tools/json-to-xml" className="underline hover:text-sky-600">JSON to XML Converter</Link>
-            {", "}
-            <Link href="/tools/regex-tester" className="underline hover:text-sky-600">Regex Tester</Link>
-            {", "}
-            <Link href="/tools/jwt-decoder" className="underline hover:text-sky-600">JWT Decoder</Link>
-            {", "}
-            <Link href="/tools/url-encoder" className="underline hover:text-sky-600">URL Encoder / Decoder</Link>
-            {", "}
-            <Link href="/tools/html-encoder" className="underline hover:text-sky-600">HTML Encoder / Decoder</Link>
-            {", "}
-            <Link href="/tools/hash-generator" className="underline hover:text-sky-600">Hash Generator</Link>
-          </div>
-        </article>
       </section>
 
       {/* Ad near bottom */}

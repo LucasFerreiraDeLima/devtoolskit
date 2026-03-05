@@ -23,8 +23,6 @@ export default function RandomNumberPage() {
       {/* Tool interface */}
       <RandomNumberClient />
 
-      // ...existing code...
-
       {/* SEO/Educational content */}
       <section className="space-y-8 bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 sm:p-10 border border-slate-100 dark:border-slate-800 mb-8">
         <article>
@@ -61,8 +59,6 @@ export default function RandomNumberPage() {
           </p>
         </article>
       </section>
-
-      // ...existing code...
     </ToolLayout>
   );
 }
