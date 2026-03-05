@@ -15,20 +15,60 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DevTools Kit - Free Online Utilities",
+  title: "DevTools Kit – Free Online Developer Tools, Text Utilities & Converters",
   description:
-    "Collection of small developer utilities: word counter, converters and quick tools to boost productivity.",
+    "Boost your productivity with DevTools Kit: free online developer tools, text utilities, word counter, case converter, Base64, JSON, CSV, hash generator, color converter, and more. Fast, privacy-friendly, SEO-optimized.",
+  keywords: [
+    "developer tools",
+    "online tools",
+    "text utilities",
+    "word counter",
+    "case converter",
+    "base64 encoder",
+    "json formatter",
+    "csv converter",
+    "hash generator",
+    "color converter",
+    "random string",
+    "password generator",
+    "regex tester",
+    "jwt decoder",
+    "timestamp converter",
+    "remove duplicate lines",
+    "free tools",
+    "SEO tools"
+  ],
   robots: {
     index: true,
     follow: true,
   },
   openGraph: {
-    title: "DevTools Kit - Free Online Utilities",
+    title: "DevTools Kit – Free Online Developer Tools, Text Utilities & Converters",
     description:
-      "Fast, accessible and SEO-optimized developer tools including a word counter, converters, and more.",
+      "Boost your productivity with free online developer tools: word counter, converters, hash generator, color converter, and more. Fast, privacy-friendly, SEO-optimized.",
     url: "https://example.com",
     siteName: "DevTools Kit",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DevTools Kit – Free Online Developer Tools"
+      }
+    ],
+    type: "website",
+    locale: "en_US"
   },
+  twitter: {
+    card: "summary_large_image",
+    site: "@devtoolskit",
+    title: "DevTools Kit – Free Online Developer Tools, Text Utilities & Converters",
+    description: "Boost your productivity with free online developer tools: word counter, converters, hash generator, color converter, and more. Fast, privacy-friendly, SEO-optimized.",
+    images: ["/og-image.png"]
+  },
+  alternates: {
+    canonical: "https://example.com"
+  }
 };
 
 export default function RootLayout({
