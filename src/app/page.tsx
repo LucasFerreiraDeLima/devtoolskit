@@ -72,12 +72,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full max-w-2xl mb-10">
-        <div className="rounded-xl bg-white/90 dark:bg-slate-900/80 p-6 sm:p-8 shadow border border-slate-100 dark:border-slate-800 flex flex-col gap-4">
-          <h2 className="text-lg font-semibold mb-2">Featured</h2>
-          <AdPlaceholder />
-        </div>
-      </section>
 
       <section className="w-full max-w-2xl mb-10">
         <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-6 sm:p-8 shadow border border-slate-100 dark:border-slate-800">

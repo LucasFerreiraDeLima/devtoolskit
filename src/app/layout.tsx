@@ -99,7 +99,7 @@ export default function RootLayout({
         <meta name="twitter:title" content="DevTools Kit - Free Online Utilities" />
         <meta name="twitter:description" content="Fast, accessible and SEO-optimized developer tools including a word counter, converters, and more." />
         <meta name="twitter:image" content="/og-image.png" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        {/* <link rel="icon" href="/favicon.ico" type="image/x-icon" /> */}
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="canonical" href="https://example.com" />
