@@ -84,7 +84,8 @@ function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: n
 }
 
 function parseRgb(str: string): { r: number; g: number; b: number } | null {
-  const match = str.match(/rgb\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)/i);
+  // Accepts only numbers and commas, e.g. 255,66,6
+  const match = str.match(/^\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$/);
   if (!match) return null;
   const r = Number(match[1]), g = Number(match[2]), b = Number(match[3]);
   if ([r, g, b].some(x => x < 0 || x > 255)) return null;
@@ -92,7 +93,8 @@ function parseRgb(str: string): { r: number; g: number; b: number } | null {
 }
 
 function parseHsl(str: string): { h: number; s: number; l: number } | null {
-  const match = str.match(/hsl\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)/i);
+  // Accepts only numbers and commas, e.g. 0,100,50
+  const match = str.match(/^\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$/);
   if (!match) return null;
   const h = Number(match[1]), s = Number(match[2]), l = Number(match[3]);
   if (h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100) return null;
@@ -101,8 +103,8 @@ function parseHsl(str: string): { h: number; s: number; l: number } | null {
 
 export default function ColorConverterClient() {
   const [hex, setHex] = useState("");
-  const [rgb, setRgb] = useState("");
-  const [hsl, setHsl] = useState("");
+  const [rgb, setRgb] = useState<[string, string, string]>(["", "", ""]);
+  const [hsl, setHsl] = useState<[string, string, string]>(["", "", ""]);
   const [active, setActive] = useState<"hex" | "rgb" | "hsl">("hex");
   const [error, setError] = useState("");
   const [converted, setConverted] = useState<{ hex: string; rgb: string; hsl: string }>({ hex: "", rgb: "", hsl: "" });
@@ -117,26 +119,31 @@ export default function ColorConverterClient() {
     if (active === "hex") {
       rgbObj = hexToRgb(hex.trim());
       if (!rgbObj) {
-        setError("Invalid HEX format. Example: #ff0000");
+        setError("Invalid HEX format. Example: ff0000");
         return;
       }
       hexVal = rgbToHex(rgbObj.r, rgbObj.g, rgbObj.b);
       hslObj = rgbToHsl(rgbObj.r, rgbObj.g, rgbObj.b);
     } else if (active === "rgb") {
-      rgbObj = parseRgb(rgb.trim());
-      if (!rgbObj) {
-        setError("Invalid RGB format. Example: rgb(255, 0, 0)");
+      const [r, g, b] = rgb.map(x => Number(x));
+      if ([r, g, b].some(x => isNaN(x) || x < 0 || x > 255)) {
+        setError("RGB values must be 0-255");
         return;
       }
-      hexVal = rgbToHex(rgbObj.r, rgbObj.g, rgbObj.b);
-      hslObj = rgbToHsl(rgbObj.r, rgbObj.g, rgbObj.b);
+      rgbObj = { r, g, b };
+      hexVal = rgbToHex(r, g, b);
+      hslObj = rgbToHsl(r, g, b);
     } else if (active === "hsl") {
-      hslObj = parseHsl(hsl.trim());
-      if (!hslObj) {
-        setError("Invalid HSL format. Example: hsl(0, 100%, 50%)");
+      const [h, s, l] = hsl.map(x => Number(x));
+      if (
+        isNaN(h) || isNaN(s) || isNaN(l) ||
+        h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100
+      ) {
+        setError("HSL values: H 0-360, S/L 0-100");
         return;
       }
-      rgbObj = hslToRgb(hslObj.h, hslObj.s, hslObj.l);
+      hslObj = { h, s, l };
+      rgbObj = hslToRgb(h, s, l);
       hexVal = rgbToHex(rgbObj.r, rgbObj.g, rgbObj.b);
     }
     setConverted({
@@ -148,8 +155,8 @@ export default function ColorConverterClient() {
 
   function handleClear() {
     setHex("");
-    setRgb("");
-    setHsl("");
+    setRgb(["", "", ""]);
+    setHsl(["", "", ""]);
     setConverted({ hex: "", rgb: "", hsl: "" });
     setError("");
     setCopied({ hex: false, rgb: false, hsl: false });
@@ -168,48 +175,82 @@ export default function ColorConverterClient() {
 
   return (
     <div className="space-y-8">
+      {/* Inputs */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {/* HEX */}
         <div className="flex flex-col gap-2">
           <label htmlFor="color-hex" className="font-semibold text-slate-800 dark:text-slate-100">HEX</label>
           <input
             id="color-hex"
             type="text"
             value={hex}
-            onChange={e => { setHex(e.target.value); setActive("hex"); }}
+            maxLength={6}
+            onChange={e => {
+              let v = e.target.value.replace(/[^a-fA-F0-9]/g, "");
+              if (v.length > 6) v = v.slice(0, 6);
+              setHex(v);
+              setActive("hex");
+            }}
             className={`w-full p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none ${active === "hex" ? "ring-2 ring-sky-400" : ""}`}
-            placeholder="#ff0000"
+            placeholder="ff0000"
             autoComplete="off"
           />
         </div>
+        {/* RGB */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="color-rgb" className="font-semibold text-slate-800 dark:text-slate-100">RGB</label>
-          <input
-            id="color-rgb"
-            type="text"
-            value={rgb}
-            onChange={e => { setRgb(e.target.value); setActive("rgb"); }}
-            className={`w-full p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none ${active === "rgb" ? "ring-2 ring-sky-400" : ""}`}
-            placeholder="rgb(255, 0, 0)"
-            autoComplete="off"
-          />
+          <label className="font-semibold text-slate-800 dark:text-slate-100">RGB</label>
+          <div className="flex gap-2">
+            {[0, 1, 2].map(i => (
+              <input
+                key={i}
+                type="number"
+                min={0}
+                max={255}
+                value={rgb[i]}
+                onChange={e => {
+                  const v = e.target.value.replace(/[^0-9]/g, "");
+                  setRgb(r => r.map((x, idx) => idx === i ? v : x) as [string, string, string]);
+                  setActive("rgb");
+                }}
+                className={`w-16 p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none text-center ${active === "rgb" ? "ring-2 ring-sky-400" : ""}`}
+                placeholder={["R", "G", "B"][i]}
+                autoComplete="off"
+              />
+            ))}
+          </div>
+          <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Exemplo: 255, 0, 0</span>
         </div>
+        {/* HSL */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="color-hsl" className="font-semibold text-slate-800 dark:text-slate-100">HSL</label>
-          <input
-            id="color-hsl"
-            type="text"
-            value={hsl}
-            onChange={e => { setHsl(e.target.value); setActive("hsl"); }}
-            className={`w-full p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none ${active === "hsl" ? "ring-2 ring-sky-400" : ""}`}
-            placeholder="hsl(0, 100%, 50%)"
-            autoComplete="off"
-          />
+          <label className="font-semibold text-slate-800 dark:text-slate-100">HSL</label>
+          <div className="flex gap-2">
+            {[0, 1, 2].map(i => (
+              <input
+                key={i}
+                type="number"
+                min={i === 0 ? 0 : 0}
+                max={i === 0 ? 360 : 100}
+                value={hsl[i]}
+                onChange={e => {
+                  const v = e.target.value.replace(/[^0-9]/g, "");
+                  setHsl(h => h.map((x, idx) => idx === i ? v : x) as [string, string, string]);
+                  setActive("hsl");
+                }}
+                className={`w-16 p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none text-center ${active === "hsl" ? "ring-2 ring-sky-400" : ""}`}
+                placeholder={["H", "S", "L"][i]}
+                autoComplete="off"
+              />
+            ))}
+          </div>
+          <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Exemplo: 0, 100, 50</span>
         </div>
       </div>
+      {/* Buttons */}
       <div className="flex flex-wrap gap-3 mt-2">
         <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleConvert}>Convert</button>
         <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
       </div>
+      {/* Results */}
       <div>
         <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Converted Values</label>
         {error && <div className="mb-2 text-red-600 dark:text-red-400 font-medium">{error}</div>}
