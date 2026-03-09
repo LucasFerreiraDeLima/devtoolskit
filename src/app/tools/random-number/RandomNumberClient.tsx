@@ -12,6 +12,7 @@ export default function RandomNumberClient() {
   const [results, setResults] = useState<number[]>([]);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const [sort, setSort] = useState(false);
 
   function handleGenerate() {
     setError("");
@@ -31,9 +32,12 @@ export default function RandomNumberClient() {
       setResults([]);
       return;
     }
-    const nums: number[] = [];
+    let nums: number[] = [];
     for (let i = 0; i < quantity; i++) {
       nums.push(getRandomInt(min, max));
+    }
+    if (sort) {
+      nums = nums.sort((a, b) => a - b);
     }
     setResults(nums);
   }
@@ -93,9 +97,13 @@ export default function RandomNumberClient() {
           <span className="text-xs text-slate-500">(1–100)</span>
         </div>
       </div>
-      <div className="flex flex-wrap gap-3 mt-2">
+      <div className="flex flex-wrap gap-3 mt-2 items-center">
         <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleGenerate}>Generate Number</button>
         <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <label className="flex items-center gap-2 ml-2 select-none">
+          <input type="checkbox" checked={sort} onChange={e => setSort(e.target.checked)} />
+          <span className="text-sm">Sort results</span>
+        </label>
       </div>
       <div>
         <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Result</label>
