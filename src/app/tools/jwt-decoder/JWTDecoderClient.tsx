@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function base64UrlDecode(str: string): string {
   // Replace base64url chars with base64 chars
@@ -21,14 +23,14 @@ function formatJson(obj: any): string {
 function parseJwt(token: string): { header?: any; payload?: any; error?: string } {
   try {
     const parts = token.split(".");
-    if (parts.length < 2) return { error: "JWT must have at least header and payload." };
+    if (parts.length < 2) return { error: "jwt_error_missing_parts" };
     const headerJson = base64UrlDecode(parts[0]);
     const payloadJson = base64UrlDecode(parts[1]);
     const header = JSON.parse(headerJson);
     const payload = JSON.parse(payloadJson);
     return { header, payload };
   } catch (e: any) {
-    return { error: "Invalid JWT or malformed Base64/JSON." };
+    return { error: "jwt_error_invalid_jwt" };
   }
 }
 
@@ -43,6 +45,7 @@ function formatTimestamp(ts?: number): string | null {
 }
 
 export default function JWTDecoderClient() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [header, setHeader] = useState<string>("");
   const [payload, setPayload] = useState<string>("");
@@ -104,53 +107,53 @@ export default function JWTDecoderClient() {
   return (
     <div className="space-y-8">
       <div>
-        <label htmlFor="jwt-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">JWT Token</label>
+        <label htmlFor="jwt-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("jwt_inputLabel")}</label>
         <textarea
           id="jwt-input"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={input}
           onChange={e => setInput(e.target.value)}
-          placeholder="Paste your JWT token here..."
+          placeholder={t("jwt_inputPlaceholder") as string}
         />
       </div>
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleDecode}>Decode Token</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleDecode}>{t("jwt_decodeButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("jwt_clearButton")}</button>
       </div>
       {error && (
         <div className="text-red-700 dark:text-red-400 font-medium border border-red-200 dark:border-red-700 bg-red-50 dark:bg-red-900 rounded-xl p-4 mt-2 animate-shake">
-          <span className="font-bold">Error:</span> {error}
+          <span className="font-bold">{t("jwt_errorPrefix")}</span> {t(error)}
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Header</label>
-          <pre className="w-full min-h-[80px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{header || "Decoded header will appear here..."}</pre>
+          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("jwt_headerLabel")}</label>
+          <pre className="w-full min-h-[80px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{header || t("jwt_headerPlaceholder")}</pre>
           <button
             type="button"
             className={`px-5 py-2 mt-3 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition ${!header ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={handleCopyHeader}
             disabled={!header}
           >
-            {copiedHeader ? "Copied!" : "Copy Header"}
+            {copiedHeader ? t("copied") : t("jwt_copyHeader")}
           </button>
         </div>
         <div>
-          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Payload</label>
-          <pre className="w-full min-h-[80px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{payload || "Decoded payload will appear here..."}</pre>
+          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("jwt_payloadLabel")}</label>
+          <pre className="w-full min-h-[80px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{payload || t("jwt_payloadPlaceholder")}</pre>
           <button
             type="button"
             className={`px-5 py-2 mt-3 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition ${!payload ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={handleCopyPayload}
             disabled={!payload}
           >
-            {copiedPayload ? "Copied!" : "Copy Payload"}
+            {copiedPayload ? t("copied") : t("jwt_copyPayload")}
           </button>
           {(exp || iat || sub) && (
             <div className="mt-4 text-sm text-slate-700 dark:text-slate-300 space-y-1">
-              {exp && <div><span className="font-bold">exp:</span> {exp} {expDate && <span>({expDate})</span>}</div>}
-              {iat && <div><span className="font-bold">iat:</span> {iat} {iatDate && <span>({iatDate})</span>}</div>}
-              {sub && <div><span className="font-bold">sub:</span> {sub}</div>}
+              {exp && <div><span className="font-bold">{t("jwt_field_exp")}:</span> {exp} {expDate && <span>({expDate})</span>}</div>}
+              {iat && <div><span className="font-bold">{t("jwt_field_iat")}:</span> {iat} {iatDate && <span>({iatDate})</span>}</div>}
+              {sub && <div><span className="font-bold">{t("jwt_field_sub")}:</span> {sub}</div>}
             </div>
           )}
         </div>

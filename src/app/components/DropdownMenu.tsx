@@ -1,10 +1,36 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import "../../utils/i18n";
+
+const toolLinks = [
+  { href: "/tools/base64", labelKey: "base64_label" },
+  { href: "/tools/case-converter", labelKey: "caseConverter_label" },
+  { href: "/tools/color-converter", labelKey: "colorConverter_label" },
+  { href: "/tools/hash-generator", labelKey: "hashGenerator_label" },
+  { href: "/tools/html-encoder", labelKey: "htmlEncoder_label" },
+  { href: "/tools/json-formatter", labelKey: "jsonFormatter_label" },
+  { href: "/tools/json-to-csv", labelKey: "jsonToCsv_label" },
+  { href: "/tools/json-to-xml", labelKey: "jsonToXml_label" },
+  { href: "/tools/jwt-decoder", labelKey: "jwtDecoder_label" },
+  { href: "/tools/password-generator", labelKey: "passwordGenerator_label" },
+  { href: "/tools/random-number", labelKey: "randomNumber_label" },
+  { href: "/tools/random-string", labelKey: "randomString_label" },
+  { href: "/tools/regex-tester", labelKey: "regexTester_label" },
+  { href: "/tools/remove-duplicate-lines", labelKey: "removeDuplicateLines_label" },
+  { href: "/tools/text-diff", labelKey: "textDiff_label" },
+  { href: "/tools/text-sorter", labelKey: "textSorter_label" },
+  { href: "/tools/timestamp-converter", labelKey: "timestampConverter_label" },
+  { href: "/tools/url-encoder", labelKey: "urlEncoder_label" },
+  { href: "/tools/uuid-generator", labelKey: "uuidGenerator_label" },
+  { href: "/tools/word-counter", labelKey: "wordCounter_label" },
+];
 
 export default function DropdownMenu() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLLIElement>(null);
+  const { t } = useTranslation();
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -43,7 +69,7 @@ export default function DropdownMenu() {
           }
         }}
       >
-        Tools
+        {t('tools')}
         <svg className={`w-4 h-4 ml-1 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
       </button>
       <ul
@@ -51,27 +77,22 @@ export default function DropdownMenu() {
         tabIndex={-1}
         style={{ WebkitOverflowScrolling: "touch" }}
       >
-        {/* Links das ferramentas em ordem alfabética */}
-        <li><Link href="/tools/base64" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 rounded-t-lg text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Base64 Encode / Decode</Link></li>
-        <li><Link href="/tools/case-converter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Case Converter</Link></li>
-        <li><Link href="/tools/color-converter" className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Color Converter</Link></li>
-        <li><Link href="/tools/hash-generator" className="block px-4 py-2 hover:bg-green-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Hash Generator</Link></li>
-        <li><Link href="/tools/html-encoder" className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">HTML Encoder / Decoder</Link></li>
-        <li><Link href="/tools/json-formatter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JSON Formatter / Validator</Link></li>
-        <li><Link href="/tools/json-to-csv" className="block px-4 py-2 hover:bg-yellow-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JSON to CSV Converter</Link></li>
-        <li><Link href="/tools/json-to-xml" className="block px-4 py-2 hover:bg-purple-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JSON to XML Converter</Link></li>
-        <li><Link href="/tools/jwt-decoder" className="block px-4 py-2 hover:bg-indigo-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">JWT Decoder</Link></li>
-        <li><Link href="/tools/password-generator" className="block px-4 py-2 hover:bg-green-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Password Generator</Link></li>
-        <li><Link href="/tools/random-number" className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Random Number Generator</Link></li>
-        <li><Link href="/tools/random-string" className="block px-4 py-2 hover:bg-purple-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Random String Generator</Link></li>
-        <li><Link href="/tools/regex-tester" className="block px-4 py-2 hover:bg-pink-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Regex Tester</Link></li>
-        <li><Link href="/tools/remove-duplicate-lines" className="block px-4 py-2 hover:bg-red-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Remove Duplicate Lines</Link></li>
-        <li><Link href="/tools/text-diff" className="block px-4 py-2 hover:bg-cyan-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Text Diff Checker</Link></li>
-        <li><Link href="/tools/text-sorter" className="block px-4 py-2 hover:bg-yellow-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Text Sorter</Link></li>
-        <li><Link href="/tools/timestamp-converter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Timestamp Converter</Link></li>
-        <li><Link href="/tools/url-encoder" className="block px-4 py-2 hover:bg-blue-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">URL Encoder / Decoder</Link></li>
-        <li><Link href="/tools/uuid-generator" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 rounded-b-lg text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">UUID Generator</Link></li>
-        <li><Link href="/tools/word-counter" className="block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200" onClick={() => setOpen(false)} role="menuitem">Word Counter</Link></li>
+        {/* Links das ferramentas em ordem alfabética pelo nome traduzido */}
+        {toolLinks
+          .slice()
+          .sort((a, b) => t(a.labelKey).localeCompare(t(b.labelKey)))
+          .map((tool, idx, arr) => (
+            <li key={tool.href}>
+              <Link
+                href={tool.href}
+                className={`block px-4 py-2 hover:bg-sky-50 dark:hover:bg-slate-800 ${idx === 0 ? "rounded-t-lg" : ""} ${idx === arr.length - 1 ? "rounded-b-lg" : ""} text-slate-700 dark:text-slate-200`}
+                onClick={() => setOpen(false)}
+                role="menuitem"
+              >
+                {t(tool.labelKey)}
+              </Link>
+            </li>
+          ))}
       </ul>
     </li>
   );

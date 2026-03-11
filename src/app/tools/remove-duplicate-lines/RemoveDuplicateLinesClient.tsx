@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function removeDuplicates(lines: string[], caseSensitive: boolean): string[] {
   const seen = new Set<string>();
@@ -15,6 +17,7 @@ function removeDuplicates(lines: string[], caseSensitive: boolean): string[] {
 }
 
 export default function RemoveDuplicateLinesClient() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(true);
@@ -44,13 +47,13 @@ export default function RemoveDuplicateLinesClient() {
   return (
     <div className="space-y-8">
       <div>
-        <label htmlFor="dup-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Input</label>
+        <label htmlFor="dup-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("removeDuplicateLines_inputLabel")}</label>
         <textarea
           id="dup-input"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={input}
           onChange={e => setInput(e.target.value)}
-          placeholder="Paste your lines of text here..."
+          placeholder={t("removeDuplicateLines_inputPlaceholder")}
         />
       </div>
       <div className="flex flex-wrap gap-3 mt-2 items-center">
@@ -61,19 +64,18 @@ export default function RemoveDuplicateLinesClient() {
             onChange={e => setCaseSensitive(e.target.checked)}
             className="accent-sky-600 w-4 h-4"
           />
-          Case sensitive
+          {t("removeDuplicateLines_caseSensitive")}
         </label>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleRemove}>Remove Duplicates</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleRemove}>{t("removeDuplicateLines_removeButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("removeDuplicateLines_clearButton")}</button>
       </div>
       <div>
-        <label htmlFor="dup-output" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Result</label>
         <textarea
           id="dup-output"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={output}
           readOnly
-          placeholder="Result will appear here..."
+          placeholder={t("removeDuplicateLines_resultPlaceholder")}
         />
         <button
           type="button"
@@ -81,7 +83,7 @@ export default function RemoveDuplicateLinesClient() {
           onClick={handleCopy}
           disabled={!output}
         >
-          {copied ? "Copied!" : "Copy Result"}
+          {copied ? t("removeDuplicateLines_copied") : t("removeDuplicateLines_copyButton")}
         </button>
       </div>
     </div>

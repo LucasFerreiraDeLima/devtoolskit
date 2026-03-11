@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function diffLines(original: string[], modified: string[]) {
   const maxLen = Math.max(original.length, modified.length);
@@ -25,6 +27,7 @@ function diffLines(original: string[], modified: string[]) {
 }
 
 export default function TextDiffClient() {
+  const { t } = useTranslation();
   const [original, setOriginal] = useState("");
   const [modified, setModified] = useState("");
   const [diff, setDiff] = useState<Array<{ type: string; text: string }>>([]);
@@ -49,35 +52,35 @@ export default function TextDiffClient() {
     <div className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="diff-original" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Original Text</label>
+          <label htmlFor="diff-original" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("textDiff_originalLabel")}</label>
           <textarea
             id="diff-original"
             className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             value={original}
             onChange={e => setOriginal(e.target.value)}
-            placeholder="Paste original text here..."
+            placeholder={t("textDiff_originalPlaceholder") as string}
           />
         </div>
         <div>
-          <label htmlFor="diff-modified" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Modified Text</label>
+          <label htmlFor="diff-modified" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("textDiff_modifiedLabel")}</label>
           <textarea
             id="diff-modified"
             className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             value={modified}
             onChange={e => setModified(e.target.value)}
-            placeholder="Paste modified text here..."
+            placeholder={t("textDiff_modifiedPlaceholder") as string}
           />
         </div>
       </div>
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleCompare}>Compare Text</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleCompare}>{t("textDiff_compareButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("textDiff_clearButton")}</button>
       </div>
       <div>
-        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Results</label>
+        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("textDiff_resultsLabel")}</label>
         <div className="rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-4 text-base whitespace-pre-wrap break-words">
           {diff.length === 0 ? (
-            <span className="text-slate-500">No comparison yet.</span>
+            <span className="text-slate-500">{t("textDiff_noComparison")}</span>
           ) : (
             diff.map((line, idx) => (
               <div key={idx} className={
@@ -93,7 +96,7 @@ export default function TextDiffClient() {
         </div>
         {diff.length > 0 && (
           <div className="mt-3 text-sm text-slate-700 dark:text-slate-300 font-medium">
-            Differences found: {diffCount}
+            {t("textDiff_differencesFound", { count: diffCount })}
           </div>
         )}
       </div>

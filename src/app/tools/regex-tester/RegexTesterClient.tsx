@@ -1,5 +1,7 @@
 "use client";
 import { JSX, useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function highlightMatches(text: string, matches: RegExpMatchArray[] | null): JSX.Element {
   if (!matches || matches.length === 0) return <span>{text}</span>;
@@ -24,6 +26,7 @@ function highlightMatches(text: string, matches: RegExpMatchArray[] | null): JSX
 }
 
 export default function RegexTesterClient() {
+  const { t } = useTranslation();
   const [pattern, setPattern] = useState("");
   const [flags, setFlags] = useState("");
   const [testText, setTestText] = useState("");
@@ -78,14 +81,14 @@ export default function RegexTesterClient() {
     <div className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="regex-pattern" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Regex Pattern</label>
+          <label htmlFor="regex-pattern" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("regexTester_patternLabel")}</label>
           <input
             id="regex-pattern"
             type="text"
             className="w-full p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition mb-3"
             value={pattern}
             onChange={e => setPattern(e.target.value)}
-            placeholder="e.g. \\d+"
+            placeholder={t("regexTester_patternPlaceholder")}
           />
           <label htmlFor="regex-flags" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Flags</label>
           <input
@@ -94,38 +97,38 @@ export default function RegexTesterClient() {
             className="w-full p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             value={flags}
             onChange={e => setFlags(e.target.value)}
-            placeholder="e.g. gim"
+            placeholder={t("regexTester_flagsPlaceholder")}
             maxLength={3}
           />
         </div>
         <div>
-          <label htmlFor="test-text" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Test Text</label>
+          <label htmlFor="test-text" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("regexTester_testTextLabel")}</label>
           <textarea
             id="test-text"
             className="w-full min-h-[140px] sm:min-h-[180px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
             value={testText}
             onChange={e => setTestText(e.target.value)}
-            placeholder="Paste or type your test text here..."
+            placeholder={t("regexTester_testTextPlaceholder")}
           />
         </div>
       </div>
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleTest}>Run Test</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleTest}>{t("regexTester_runButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("regexTester_clearButton")}</button>
       </div>
       {error && (
         <div className="text-red-700 dark:text-red-400 font-medium border border-red-200 dark:border-red-700 bg-red-50 dark:bg-red-900 rounded-xl p-4 mt-2 animate-shake">
-          <span className="font-bold">Error:</span> {error}
+          <span className="font-bold">{t("regexTester_errorPrefix")}</span> {error}
         </div>
       )}
       <div>
-        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Results</label>
+        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("regexTester_resultsLabel")}</label>
         <div className="w-full min-h-[60px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100">
           {matches && matches.length > 0 ? (
             <div>
-              <div className="mb-2">Matches found: <span className="font-bold">{matches.length}</span></div>
-              <div className="mb-2">Matched values: <span className="font-mono">{matches.map(m => m[0]).join(", ")}</span></div>
-              <div className="mb-2">Highlighted text:</div>
+              <div className="mb-2">{t("regexTester_matchesFound")} <span className="font-bold">{matches.length}</span></div>
+              <div className="mb-2">{t("regexTester_matchedValues")} <span className="font-mono">{matches.map(m => m[0]).join(", ")}</span></div>
+              <div className="mb-2">{t("regexTester_highlightedText")}</div>
               <div className="whitespace-pre-wrap break-words">{highlightMatches(testText, matches)}</div>
               <button
                 type="button"
@@ -133,11 +136,11 @@ export default function RegexTesterClient() {
                 onClick={handleCopy}
                 disabled={!matches.length}
               >
-                {copied ? "Copied!" : "Copy Result"}
+                {copied ? t("regexTester_copied") : t("regexTester_copyButton")}
               </button>
             </div>
           ) : (
-            <span className="text-slate-500">No matches found.</span>
+            <span className="text-slate-500">{t("regexTester_noMatches")}</span>
           )}
         </div>
       </div>

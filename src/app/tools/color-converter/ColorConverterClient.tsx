@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   hex = hex.replace(/^#/, "");
@@ -102,6 +104,7 @@ function parseHsl(str: string): { h: number; s: number; l: number } | null {
 }
 
 export default function ColorConverterClient() {
+  const { t } = useTranslation();
   const [hex, setHex] = useState("");
   const [rgb, setRgb] = useState<[string, string, string]>(["", "", ""]);
   const [hsl, setHsl] = useState<[string, string, string]>(["", "", ""]);
@@ -119,7 +122,7 @@ export default function ColorConverterClient() {
     if (active === "hex") {
       rgbObj = hexToRgb(hex.trim());
       if (!rgbObj) {
-        setError("Invalid HEX format. Example: ff0000");
+        setError("color_error_invalid_hex");
         return;
       }
       hexVal = rgbToHex(rgbObj.r, rgbObj.g, rgbObj.b);
@@ -127,7 +130,7 @@ export default function ColorConverterClient() {
     } else if (active === "rgb") {
       const [r, g, b] = rgb.map(x => Number(x));
       if ([r, g, b].some(x => isNaN(x) || x < 0 || x > 255)) {
-        setError("RGB values must be 0-255");
+        setError("color_error_rgb_range");
         return;
       }
       rgbObj = { r, g, b };
@@ -139,7 +142,7 @@ export default function ColorConverterClient() {
         isNaN(h) || isNaN(s) || isNaN(l) ||
         h < 0 || h > 360 || s < 0 || s > 100 || l < 0 || l > 100
       ) {
-        setError("HSL values: H 0-360, S/L 0-100");
+        setError("color_error_hsl_range");
         return;
       }
       hslObj = { h, s, l };
@@ -179,7 +182,7 @@ export default function ColorConverterClient() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {/* HEX */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="color-hex" className="font-semibold text-slate-800 dark:text-slate-100">HEX</label>
+          <label htmlFor="color-hex" className="font-semibold text-slate-800 dark:text-slate-100">{t("color_hex_label")}</label>
           <input
             id="color-hex"
             type="text"
@@ -192,13 +195,13 @@ export default function ColorConverterClient() {
               setActive("hex");
             }}
             className={`w-full p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none ${active === "hex" ? "ring-2 ring-sky-400" : ""}`}
-            placeholder="ff0000"
+            placeholder={t("color_hex_placeholder") as string}
             autoComplete="off"
           />
         </div>
         {/* RGB */}
         <div className="flex flex-col gap-2">
-          <label className="font-semibold text-slate-800 dark:text-slate-100">RGB</label>
+          <label className="font-semibold text-slate-800 dark:text-slate-100">{t("color_rgb_label")}</label>
           <div className="flex gap-2">
             {[0, 1, 2].map(i => (
               <input
@@ -213,16 +216,16 @@ export default function ColorConverterClient() {
                   setActive("rgb");
                 }}
                 className={`w-16 p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none text-center ${active === "rgb" ? "ring-2 ring-sky-400" : ""}`}
-                placeholder={["R", "G", "B"][i]}
+                placeholder={(t(["color_rgb_placeholder_r","color_rgb_placeholder_g","color_rgb_placeholder_b"][i]) as string) || ["R", "G", "B"][i]}
                 autoComplete="off"
               />
             ))}
           </div>
-          <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Exemplo: 255, 0, 0</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("color_rgb_example")}</span>
         </div>
         {/* HSL */}
         <div className="flex flex-col gap-2">
-          <label className="font-semibold text-slate-800 dark:text-slate-100">HSL</label>
+          <label className="font-semibold text-slate-800 dark:text-slate-100">{t("color_hsl_label")}</label>
           <div className="flex gap-2">
             {[0, 1, 2].map(i => (
               <input
@@ -237,39 +240,39 @@ export default function ColorConverterClient() {
                   setActive("hsl");
                 }}
                 className={`w-16 p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none text-center ${active === "hsl" ? "ring-2 ring-sky-400" : ""}`}
-                placeholder={["H", "S", "L"][i]}
+                placeholder={(t(["color_hsl_placeholder_h","color_hsl_placeholder_s","color_hsl_placeholder_l"][i]) as string) || ["H", "S", "L"][i]}
                 autoComplete="off"
               />
             ))}
           </div>
-          <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">Exemplo: 0, 100, 50</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">{t("color_hsl_example")}</span>
         </div>
       </div>
       {/* Buttons */}
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleConvert}>Convert</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleConvert}>{t("color_convertButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("color_clearButton")}</button>
       </div>
       {/* Results */}
       <div>
-        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Converted Values</label>
-        {error && <div className="mb-2 text-red-600 dark:text-red-400 font-medium">{error}</div>}
+        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("color_convertedLabel")}</label>
+        {error && <div className="mb-2 text-red-600 dark:text-red-400 font-medium">{t(error)}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-4">
           <div className="flex flex-col gap-2">
             <span className="font-mono text-base bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">{converted.hex}</span>
-            <button type="button" className={`px-3 py-1 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition ${!converted.hex ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => handleCopy("hex")} disabled={!converted.hex}>{copied.hex ? "Copied!" : "Copy"}</button>
+            <button type="button" className={`px-3 py-1 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition ${!converted.hex ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => handleCopy("hex")} disabled={!converted.hex}>{copied.hex ? t("copied") : t("copyButton")}</button>
           </div>
           <div className="flex flex-col gap-2">
             <span className="font-mono text-base bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">{converted.rgb}</span>
-            <button type="button" className={`px-3 py-1 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition ${!converted.rgb ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => handleCopy("rgb")} disabled={!converted.rgb}>{copied.rgb ? "Copied!" : "Copy"}</button>
+            <button type="button" className={`px-3 py-1 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition ${!converted.rgb ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => handleCopy("rgb")} disabled={!converted.rgb}>{copied.rgb ? t("copied") : t("copyButton")}</button>
           </div>
           <div className="flex flex-col gap-2">
             <span className="font-mono text-base bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-2 border border-slate-200 dark:border-slate-700">{converted.hsl}</span>
-            <button type="button" className={`px-3 py-1 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition ${!converted.hsl ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => handleCopy("hsl")} disabled={!converted.hsl}>{copied.hsl ? "Copied!" : "Copy"}</button>
+            <button type="button" className={`px-3 py-1 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition ${!converted.hsl ? "opacity-50 cursor-not-allowed" : ""}`} onClick={() => handleCopy("hsl")} disabled={!converted.hsl}>{copied.hsl ? t("copied") : t("copyButton")}</button>
           </div>
         </div>
         <div className="flex items-center gap-4 mt-2">
-          <span className="font-semibold text-slate-800 dark:text-slate-100">Color Preview:</span>
+          <span className="font-semibold text-slate-800 dark:text-slate-100">{t("color_previewLabel")}</span>
           <span className="inline-block w-16 h-16 rounded-lg border-2 border-slate-200 dark:border-slate-700" style={{ background: previewColor }} />
         </div>
       </div>

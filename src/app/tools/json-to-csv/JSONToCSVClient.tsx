@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function convertJSONToCSV(json: string): { csv: string; error?: string } {
   try {
@@ -7,8 +9,7 @@ function convertJSONToCSV(json: string): { csv: string; error?: string } {
     if (!Array.isArray(data) || data.length === 0 || typeof data[0] !== "object" || Array.isArray(data[0])) {
       return {
         csv: "",
-        error:
-          "Input must be a JSON array of objects. Example: [{ \"name\": \"John\", \"age\": 30 }]"
+        error: "jsonToCsv_error_input_format",
       };
     }
     const headers = Object.keys(data[0]);
@@ -25,11 +26,12 @@ function convertJSONToCSV(json: string): { csv: string; error?: string } {
     const csv = [headers.join(","), ...rows].join("\n");
     return { csv };
   } catch (e: any) {
-    return { csv: "", error: e.message };
+    return { csv: "", error: "jsonToCsv_error_invalid_json" };
   }
 }
 
 export default function JSONToCSVClient() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -60,32 +62,32 @@ export default function JSONToCSVClient() {
   return (
     <div className="space-y-8">
       <div>
-        <label htmlFor="json-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Input JSON</label>
+        <label htmlFor="json-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("jsonToCsv_inputLabel")}</label>
         <textarea
           id="json-input"
           className="w-full min-h-[140px] sm:min-h-[180px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={input}
           onChange={e => setInput(e.target.value)}
-          placeholder="Paste or type your JSON array of objects here..."
+          placeholder={t("jsonToCsv_inputPlaceholder") as string}
         />
       </div>
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleConvert}>Convert to CSV</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleConvert}>{t("jsonToCsv_convertButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("jsonToCsv_clearButton")}</button>
       </div>
       {error && (
         <div className="text-red-700 dark:text-red-400 font-medium border border-red-200 dark:border-red-700 bg-red-50 dark:bg-red-900 rounded-xl p-4 mt-2 animate-shake">
-          <span className="font-bold">Error:</span> {error}
+          <span className="font-bold">{t("jsonToCsv_errorPrefix")}</span> {t(error)}
         </div>
       )}
       <div>
-        <label htmlFor="csv-output" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Output CSV</label>
+        <label htmlFor="csv-output" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("jsonToCsv_outputLabel")}</label>
         <textarea
           id="csv-output"
           className="w-full min-h-[140px] sm:min-h-[180px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={output}
           readOnly
-          placeholder="Converted CSV will appear here..."
+          placeholder={t("jsonToCsv_outputPlaceholder") as string}
         />
         <button
           type="button"
@@ -93,7 +95,7 @@ export default function JSONToCSVClient() {
           onClick={handleCopy}
           disabled={!output}
         >
-          {copied ? "Copied!" : "Copy Result"}
+          {copied ? t("copied") : t("copyButton")}
         </button>
       </div>
     </div>

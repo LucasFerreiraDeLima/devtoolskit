@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
-import DropdownMenu from "./components/DropdownMenu";
+import NavMenu from "./components/NavMenu";
+import FooterMenu from "./components/FooterMenu";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -118,36 +119,13 @@ export default function RootLayout({
               <Link href="/" className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white text-center w-full sm:w-auto" tabIndex={0} aria-label="DevTools Kit Home">
                 DevTools Kit
               </Link>
-              <nav aria-label="Main navigation" className="w-full sm:w-auto flex justify-center sm:justify-end">
-                <ul className="flex gap-6 text-base font-medium text-slate-700 dark:text-slate-200">
-                  <li>
-                    <Link href="/" className="hover:text-sky-600 dark:hover:text-sky-400 transition-colors" tabIndex={0} aria-label="Home">
-                      Home
-                    </Link>
-                  </li>
-                  <DropdownMenu />
-                </ul>
-              </nav>
+              <NavMenu />
             </div>
           </header>
 
           <main className="flex-1 mx-auto w-full max-w-5xl px-2 sm:px-4 py-6 sm:py-8" role="main">{children}</main>
 
-          <footer className="border-t">
-            <div className="mx-auto max-w-5xl px-4 py-6 text-sm text-slate-600 dark:text-slate-400">
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
-                <div>&copy; {new Date().getFullYear()} DevTools Kit. All rights reserved.</div>
-                <div className="flex gap-4">
-                  <Link href="/privacy" className="hover:underline" tabIndex={0} aria-label="Privacy Policy">
-                    Privacy Policy
-                  </Link>
-                  <Link href="/contact" className="hover:underline" tabIndex={0} aria-label="Contact">
-                    Contact & About
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </footer>
+          <FooterMenu />
         </div>
       </body>
     </html>
