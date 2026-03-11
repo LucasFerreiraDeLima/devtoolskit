@@ -1,5 +1,7 @@
 "use client";
 import React, { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function computeStats(text: string) {
   const charsWithSpaces = text.length;
@@ -20,6 +22,7 @@ function computeStats(text: string) {
 }
 
 export default function WordCounterClient() {
+  const { t } = useTranslation();
   const [text, setText] = useState("");
 
   const stats = useMemo(() => computeStats(text), [text]);
@@ -36,13 +39,13 @@ export default function WordCounterClient() {
     <div className="space-y-6">
       <div>
         <label htmlFor="word-input" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-          Enter text to analyze
+          {t("wordCounter_inputLabel")}
         </label>
         <textarea
           id="word-input"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Paste or type your text here..."
+          placeholder={t("wordCounter_inputPlaceholder") as string}
           className="w-full min-h-[160px] rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm shadow-md focus:outline-none focus:ring-4 focus:ring-sky-100 dark:border-slate-700 dark:bg-slate-900 dark:focus:ring-slate-800"
           aria-label="Text to analyze"
         />
@@ -54,50 +57,27 @@ export default function WordCounterClient() {
             onClick={() => setText("")}
             className="inline-flex items-center gap-2 rounded-md bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-300"
           >
-            Clear text
+            {t("wordCounter_clearButton")}
           </button>
           <button
             onClick={handleCopy}
             className="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
           >
-            Copy
+            {t("wordCounter_copyButton")}
           </button>
         </div>
 
-        <div className="text-sm text-slate-500 dark:text-slate-400">Live counts update as you type.</div>
+        <div className="text-sm text-slate-500 dark:text-slate-400">{t("wordCounter_liveUpdate")}</div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <Stat label="Words" value={stats.words} color="from-sky-400 to-indigo-400" />
-        <Stat label="Chars (with spaces)" value={stats.charsWithSpaces} color="from-emerald-400 to-sky-400" />
-        <Stat label="Chars (no spaces)" value={stats.charsWithoutSpaces} color="from-rose-400 to-pink-400" />
-        <Stat label="Lines" value={stats.lines} color="from-yellow-300 to-amber-400" />
-        <Stat label="Paragraphs" value={stats.paragraphs} color="from-cyan-300 to-sky-400" />
+        <Stat label={t("wordCounter_stat_words") as string} value={stats.words} color="from-sky-400 to-indigo-400" />
+        <Stat label={t("wordCounter_stat_charsWithSpaces") as string} value={stats.charsWithSpaces} color="from-emerald-400 to-sky-400" />
+        <Stat label={t("wordCounter_stat_charsNoSpaces") as string} value={stats.charsWithoutSpaces} color="from-rose-400 to-pink-400" />
+        <Stat label={t("wordCounter_stat_lines") as string} value={stats.lines} color="from-yellow-300 to-amber-400" />
+        <Stat label={t("wordCounter_stat_paragraphs") as string} value={stats.paragraphs} color="from-cyan-300 to-sky-400" />
       </div>
-
-      <section className="mt-6 bg-slate-50 dark:bg-slate-900 p-5 rounded-lg">
-        <div className="prose max-w-none text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-          <h3>How it works:</h3>
-          <p>
-            - The word counter works simply: it splits your text into words using spaces, counts lines by each line break, and detects paragraphs as blocks separated by one or more blank lines. All processing happens instantly in your browser — nothing you type is sent anywhere.
-          </p>
-
-          <div className="my-6"></div>
-
-          <h4>Main uses:</h4>
-          <ul>
-            <li>
-              - Checking word or character limits for articles, posts, or assignments.
-            </li>
-            <li>
-              - Quickly measuring the length of comments, code snippets, or README sections.
-            </li>
-            <li>
-              - Preparing academic or professional documents that require a minimum or maximum amount of text.
-            </li>
-          </ul>
-        </div>
-      </section>
+      
     </div>
   );
 }

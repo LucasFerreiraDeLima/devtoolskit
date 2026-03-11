@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function formatDate(date: Date) {
   // Format: YYYY-MM-DD HH:mm:ss (UTC)
@@ -22,6 +23,7 @@ function formatDate(date: Date) {
 }
 
 export default function TimestampConverterClient() {
+  const { t } = useTranslation();
   const [timestamp, setTimestamp] = useState("");
   const [dateInput, setDateInput] = useState("");
   const [result, setResult] = useState("");
@@ -32,7 +34,7 @@ export default function TimestampConverterClient() {
     setResult("");
     const ts = Number(timestamp);
     if (!timestamp || isNaN(ts) || !isFinite(ts)) {
-      setError("Please enter a valid Unix timestamp.");
+      setError("timestamp_error_invalid_input");
       return;
     }
     try {
@@ -40,7 +42,7 @@ export default function TimestampConverterClient() {
       if (isNaN(date.getTime())) throw new Error();
       setResult(formatDate(date));
     } catch {
-      setError("Invalid timestamp.");
+      setError("timestamp_error_invalid_timestamp");
     }
   }
 
@@ -48,7 +50,7 @@ export default function TimestampConverterClient() {
     setError("");
     setResult("");
     if (!dateInput) {
-      setError("Please enter a valid date and time.");
+      setError("timestamp_error_invalid_date_input");
       return;
     }
     try {
@@ -56,7 +58,7 @@ export default function TimestampConverterClient() {
       if (isNaN(date.getTime())) throw new Error();
       setResult(Math.floor(date.getTime() / 1000).toString());
     } catch {
-      setError("Invalid date.");
+      setError("timestamp_error_invalid_date");
     }
   }
 
@@ -74,70 +76,57 @@ export default function TimestampConverterClient() {
   }
 
   return (
-    <section
-      aria-labelledby="timestamp-converter-heading"
-      className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 sm:p-10 border border-slate-100 dark:border-slate-800 mb-8"
-    >
-      <h1 id="timestamp-converter-heading" className="text-2xl font-bold mb-2">
-        Unix Timestamp Converter
-      </h1>
-      <p className="mb-6 text-slate-700 dark:text-slate-300">
-        Convert Unix timestamps to human-readable dates and vice versa. All calculations run securely in your browser.
-      </p>
+    <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <label htmlFor="timestamp-input" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-            Unix Timestamp
-          </label>
+          <label htmlFor="timestamp-input" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t("timestamp_inputLabel")}</label>
           <input
             id="timestamp-input"
             type="number"
             inputMode="numeric"
             value={timestamp}
             onChange={e => setTimestamp(e.target.value.replace(/[^0-9]/g, ""))}
-            placeholder="e.g. 1709596800"
+            placeholder={t("timestamp_inputPlaceholder") as string}
             className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-            aria-label="Unix timestamp"
+            aria-label={t("timestamp_inputAria") as string}
           />
         </div>
         <div>
-          <label htmlFor="date-input" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-            Date and Time
-          </label>
+          <label htmlFor="date-input" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t("timestamp_dateLabel")}</label>
           <input
             id="date-input"
             type="datetime-local"
             value={dateInput}
             onChange={e => setDateInput(e.target.value)}
             className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
-            aria-label="Date and time"
+            aria-label={t("timestamp_dateAria") as string}
           />
         </div>
       </div>
       {error && (
-        <div className="mt-4 text-sm text-red-600 dark:text-red-400 font-medium">{error}</div>
+        <div className="mt-4 text-sm text-red-600 dark:text-red-400 font-medium">{t(error)}</div>
       )}
-      <div className="flex flex-wrap gap-2 mt-8">
+      <div className="flex flex-wrap gap-2 mt-2">
         <button
           type="button"
           className="rounded bg-sky-600 px-4 py-2 text-sm text-white font-semibold hover:bg-sky-700 transition"
           onClick={handleTimestampToDate}
         >
-          Convert Timestamp to Date
+          {t("timestamp_toDateButton")}
         </button>
         <button
           type="button"
           className="rounded bg-emerald-600 px-4 py-2 text-sm text-white font-semibold hover:bg-emerald-700 transition"
           onClick={handleDateToTimestamp}
         >
-          Convert Date to Timestamp
+          {t("timestamp_toTimestampButton")}
         </button>
         <button
           type="button"
           className="rounded bg-slate-200 px-4 py-2 text-sm text-slate-700 font-semibold hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 transition"
           onClick={handleClear}
         >
-          Clear inputs
+          {t("timestamp_clearButton")}
         </button>
         <button
           type="button"
@@ -145,7 +134,7 @@ export default function TimestampConverterClient() {
           onClick={handleCopy}
           disabled={!result}
         >
-          Copy Result
+          {t("copyButton")}
         </button>
       </div>
       {result && (
@@ -153,6 +142,6 @@ export default function TimestampConverterClient() {
           {result}
         </div>
       )}
-    </section>
+    </div>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 // MD5 implementation (minimal, browser compatible)
 function md5(str: string): string {
@@ -161,6 +163,7 @@ async function shaHash(str: string, algo: "SHA-1" | "SHA-256"): Promise<string> 
 }
 
 export default function HashGeneratorClient() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [md5Hash, setMd5Hash] = useState("");
   const [sha1Hash, setSha1Hash] = useState("");
@@ -197,54 +200,54 @@ export default function HashGeneratorClient() {
   return (
     <div className="space-y-8">
       <div>
-        <label htmlFor="hash-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Input</label>
+        <label htmlFor="hash-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("hash_inputLabel")}</label>
         <textarea
           id="hash-input"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={input}
           onChange={e => setInput(e.target.value)}
-          placeholder="Paste your text here..."
+          placeholder={t("hash_inputPlaceholder") as string}
         />
       </div>
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleGenerate}>Generate Hashes</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleGenerate}>{t("hash_generateButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("hash_clearButton")}</button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div>
-          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">MD5</label>
-          <pre className="w-full min-h-[40px] p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{md5Hash || "MD5 hash will appear here..."}</pre>
+          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("hash_md5Label")}</label>
+          <pre className="w-full min-h-[40px] p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{md5Hash || t("hash_md5Placeholder")}</pre>
           <button
             type="button"
             className={`px-5 py-2 mt-3 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition ${!md5Hash ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={() => handleCopy("md5")}
             disabled={!md5Hash}
           >
-            {copied.md5 ? "Copied!" : "Copy MD5"}
+            {copied.md5 ? t("copied") : t("hash_copy_md5")}
           </button>
         </div>
         <div>
-          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">SHA-1</label>
-          <pre className="w-full min-h-[40px] p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{sha1Hash || "SHA-1 hash will appear here..."}</pre>
+          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("hash_sha1Label")}</label>
+          <pre className="w-full min-h-[40px] p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{sha1Hash || t("hash_sha1Placeholder")}</pre>
           <button
             type="button"
             className={`px-5 py-2 mt-3 rounded-lg font-semibold bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition ${!sha1Hash ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={() => handleCopy("sha1")}
             disabled={!sha1Hash}
           >
-            {copied.sha1 ? "Copied!" : "Copy SHA-1"}
+            {copied.sha1 ? t("copied") : t("hash_copy_sha1")}
           </button>
         </div>
         <div>
-          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">SHA-256</label>
-          <pre className="w-full min-h-[40px] p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{sha256Hash || "SHA-256 hash will appear here..."}</pre>
+          <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("hash_sha256Label")}</label>
+          <pre className="w-full min-h-[40px] p-3 border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 whitespace-pre-wrap break-words">{sha256Hash || t("hash_sha256Placeholder")}</pre>
           <button
             type="button"
             className={`px-5 py-2 mt-3 rounded-lg font-semibold bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition ${!sha256Hash ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={() => handleCopy("sha256")}
             disabled={!sha256Hash}
           >
-            {copied.sha256 ? "Copied!" : "Copy SHA-256"}
+            {copied.sha256 ? t("copied") : t("hash_copy_sha256")}
           </button>
         </div>
       </div>

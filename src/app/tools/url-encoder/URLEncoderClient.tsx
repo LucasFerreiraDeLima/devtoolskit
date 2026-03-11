@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 export default function URLEncoderClient() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -12,7 +15,7 @@ export default function URLEncoderClient() {
     try {
       setOutput(encodeURIComponent(input));
     } catch (e) {
-      setError("Encoding failed.");
+      setError(t("urlEncoder_encodeError"));
       setOutput("");
     }
   }
@@ -22,7 +25,7 @@ export default function URLEncoderClient() {
     try {
       setOutput(decodeURIComponent(input));
     } catch (e) {
-      setError("Decoding failed. Please check your input.");
+      setError(t("urlEncoder_decodeError"));
       setOutput("");
     }
   }
@@ -45,33 +48,33 @@ export default function URLEncoderClient() {
   return (
     <div className="space-y-8">
       <div>
-        <label htmlFor="url-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Input</label>
+        <label htmlFor="url-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("urlEncoder_inputLabel")}</label>
         <textarea
           id="url-input"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={input}
           onChange={e => setInput(e.target.value)}
-          placeholder="Paste your text or URL here..."
+          placeholder={t("urlEncoder_inputPlaceholder") as string}
         />
       </div>
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleEncode}>Encode URL</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" onClick={handleDecode}>Decode URL</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleEncode}>{t("urlEncoder_encodeButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" onClick={handleDecode}>{t("urlEncoder_decodeButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("urlEncoder_clearButton")}</button>
       </div>
       {error && (
         <div className="text-red-700 dark:text-red-400 font-medium border border-red-200 dark:border-red-700 bg-red-50 dark:bg-red-900 rounded-xl p-4 mt-2 animate-shake">
-          <span className="font-bold">Error:</span> {error}
+          <span className="font-bold">{t("urlEncoder_errorPrefix")}</span> {error}
         </div>
       )}
       <div>
-        <label htmlFor="url-output" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Result</label>
+        <label htmlFor="url-output" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("urlEncoder_resultLabel")}</label>
         <textarea
           id="url-output"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={output}
           readOnly
-          placeholder="Encoded or decoded result will appear here..."
+          placeholder={t("urlEncoder_resultPlaceholder") as string}
         />
         <button
           type="button"
@@ -79,7 +82,7 @@ export default function URLEncoderClient() {
           onClick={handleCopy}
           disabled={!output}
         >
-          {copied ? "Copied!" : "Copy Result"}
+          {copied ? t("urlEncoder_copied") : t("urlEncoder_copyButton")}
         </button>
       </div>
     </div>

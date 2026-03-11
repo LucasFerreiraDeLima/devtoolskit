@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 const UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
@@ -23,6 +25,7 @@ function generateString(length: number, opts: { upper: boolean; lower: boolean; 
 }
 
 export default function RandomStringClient() {
+  const { t } = useTranslation();
   const [length, setLength] = useState(12);
   const [upper, setUpper] = useState(true);
   const [lower, setLower] = useState(true);
@@ -53,7 +56,7 @@ export default function RandomStringClient() {
     <div className="space-y-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="flex flex-col gap-4">
-          <label htmlFor="str-length" className="font-semibold text-slate-800 dark:text-slate-100">String Length</label>
+          <label htmlFor="str-length" className="font-semibold text-slate-800 dark:text-slate-100">{t("randomString_lengthLabel")}</label>
           <input
             id="str-length"
             type="range"
@@ -63,43 +66,43 @@ export default function RandomStringClient() {
             onChange={e => setLength(Number(e.target.value))}
             className="w-full accent-sky-600"
           />
-          <div className="text-sm text-slate-700 dark:text-slate-300">{length} characters</div>
+          <div className="text-sm text-slate-700 dark:text-slate-300">{length} {t("characters")}</div>
         </div>
         <div className="flex flex-col gap-4">
-          <label className="font-semibold text-slate-800 dark:text-slate-100">Character Types</label>
+          <label className="font-semibold text-slate-800 dark:text-slate-100">{t("randomString_characterTypes")}</label>
           <div className="flex flex-wrap gap-4">
             <label className="flex items-center gap-2">
               <input type="checkbox" checked={upper} onChange={e => setUpper(e.target.checked)} />
-              <span>Uppercase (A-Z)</span>
+              <span>{t("randomString_uppercase")}</span>
             </label>
             <label className="flex items-center gap-2">
               <input type="checkbox" checked={lower} onChange={e => setLower(e.target.checked)} />
-              <span>Lowercase (a-z)</span>
+              <span>{t("randomString_lowercase")}</span>
             </label>
             <label className="flex items-center gap-2">
               <input type="checkbox" checked={number} onChange={e => setNumber(e.target.checked)} />
-              <span>Numbers (0-9)</span>
+              <span>{t("randomString_numbers")}</span>
             </label>
             <label className="flex items-center gap-2">
               <input type="checkbox" checked={symbol} onChange={e => setSymbol(e.target.checked)} />
-              <span>Symbols (!@#$...)</span>
+              <span>{t("randomString_symbols")}</span>
             </label>
           </div>
         </div>
       </div>
       <div className="flex flex-wrap gap-3 mt-2">
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleGenerate}>Generate String</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleGenerate}>{t("randomString_generateButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("randomString_clearButton")}</button>
       </div>
       <div>
-        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Generated String</label>
+        <label className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("randomString_generatedLabel")}</label>
         <div className="flex items-center gap-3">
           <input
             type="text"
             readOnly
             value={result}
             className="w-full font-mono text-base p-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none"
-            placeholder="Your random string will appear here"
+            placeholder={t("randomString_placeholder") as string}
           />
           <button
             type="button"
@@ -107,7 +110,7 @@ export default function RandomStringClient() {
             onClick={handleCopy}
             disabled={!result}
           >
-            {copied ? "Copied!" : "Copy"}
+            {copied ? t("copied") : t("randomString_copy")}
           </button>
         </div>
       </div>

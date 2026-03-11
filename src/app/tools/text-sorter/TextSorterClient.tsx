@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 const sortOptions = [
-  { value: "az", label: "Sort A → Z" },
-  { value: "za", label: "Sort Z → A" },
-  { value: "shortlong", label: "Sort by length (short → long)" },
-  { value: "longshort", label: "Sort by length (long → short)" },
+  { value: "az", key: "textSorter_option_az" },
+  { value: "za", key: "textSorter_option_za" },
+  { value: "shortlong", key: "textSorter_option_shortlong" },
+  { value: "longshort", key: "textSorter_option_longshort" },
 ];
 
 function sortLines(lines: string[], method: string): string[] {
@@ -25,6 +27,7 @@ function sortLines(lines: string[], method: string): string[] {
 }
 
 export default function TextSorterClient() {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [sortMethod, setSortMethod] = useState(sortOptions[0].value);
@@ -61,13 +64,13 @@ export default function TextSorterClient() {
   return (
     <div className="space-y-8">
       <div>
-        <label htmlFor="sort-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Input</label>
+        <label htmlFor="sort-input" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("textSorter_inputLabel")}</label>
         <textarea
           id="sort-input"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={input}
           onChange={e => setInput(e.target.value)}
-          placeholder="Paste your lines of text here..."
+          placeholder={t("textSorter_inputPlaceholder") as string}
         />
       </div>
       <div className="flex flex-wrap gap-3 mt-2 items-center">
@@ -77,20 +80,20 @@ export default function TextSorterClient() {
           onChange={e => setSortMethod(e.target.value)}
         >
           {sortOptions.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
+            <option key={opt.value} value={opt.value}>{t(opt.key)}</option>
           ))}
         </select>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleSort}>Sort Text</button>
-        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>Clear</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 transition" onClick={handleSort}>{t("textSorter_sortButton")}</button>
+        <button type="button" className="px-5 py-2 rounded-lg font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 transition" onClick={handleClear}>{t("textSorter_clearButton")}</button>
       </div>
       <div>
-        <label htmlFor="sort-output" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">Result</label>
+        <label htmlFor="sort-output" className="block font-semibold mb-2 text-slate-800 dark:text-slate-100">{t("textSorter_resultLabel")}</label>
         <textarea
           id="sort-output"
           className="w-full min-h-[80px] sm:min-h-[120px] p-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl resize-vertical bg-slate-50 dark:bg-slate-800 text-base text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
           value={output}
           readOnly
-          placeholder="Sorted result will appear here..."
+          placeholder={t("textSorter_resultPlaceholder") as string}
         />
         <button
           type="button"
@@ -98,7 +101,7 @@ export default function TextSorterClient() {
           onClick={handleCopy}
           disabled={!output}
         >
-          {copied ? "Copied!" : "Copy Result"}
+          {copied ? t("copied") : t("textSorter_copyButton")}
         </button>
       </div>
     </div>

@@ -8,12 +8,12 @@ export default function ToolLayout({
   description,
   children,
 }: {
-  title: string;
-  description?: string;
+  title: React.ReactNode;
+  description?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
-    <article className="mx-auto w-full max-w-screen-lg px-2 sm:px-4 md:px-6 py-4 sm:py-6" aria-labelledby="tool-title">
+    <article className="mx-auto w-full max-w-screen-lg px-2 sm:px-4 md:px-6 py-4 sm:py-6">
       <header className="mb-6 flex items-center gap-3">
         <Link href="/" aria-label="Back to menu" className="mr-2 group">
           <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-sky-100 dark:hover:bg-sky-900 transition">
@@ -21,14 +21,12 @@ export default function ToolLayout({
           </span>
         </Link>
         <div>
-          <h1 id="tool-title" className="text-2xl sm:text-3xl font-semibold" tabIndex={0} aria-label={title}>{title}</h1>
-          {description ? (
-            <p className="mt-1 text-slate-600 dark:text-slate-300" aria-label={description}>{description}</p>
-          ) : null}
+          <h1 id="tool-title" tabIndex={0}>{title}</h1>
+          {description ? <p className="mt-1 text-slate-600 dark:text-slate-300">{description}</p> : null}
         </div>
       </header>
 
-      <section className="flex flex-col gap-6 w-full" role="region" aria-label={title + ' tool area'}>
+      <section className="flex flex-col gap-6 w-full" role="region">
         <div className="w-full">{children}</div>
       </section>
     </article>

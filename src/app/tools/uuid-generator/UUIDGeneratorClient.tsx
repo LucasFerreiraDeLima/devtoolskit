@@ -1,11 +1,14 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../../utils/i18n";
 
 function generateUUIDs(count: number) {
   return Array.from({ length: count }, () => crypto.randomUUID());
 }
 
 export default function UUIDGeneratorClient() {
+  const { t } = useTranslation();
   const [uuids, setUuids] = useState<string[]>([]);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [copiedAll, setCopiedAll] = useState(false);
@@ -43,40 +46,35 @@ export default function UUIDGeneratorClient() {
       aria-labelledby="uuid-generator-heading"
       className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg p-6 sm:p-10 border border-slate-100 dark:border-slate-800 mb-8"
     >
-      <h1 id="uuid-generator-heading" className="text-2xl font-bold mb-2">
-        UUID Generator
-      </h1>
-      <p className="mb-6 text-slate-700 dark:text-slate-300">
-        Instantly generate UUID v4 identifiers for use in databases, APIs, and testing. All generation is done securely in your browser.
-      </p>
+      <p className="mb-6 text-slate-700 dark:text-slate-300">{t("uuid_desc")}</p>
       <div className="flex flex-wrap gap-2 mb-6">
         <button
           type="button"
           className="rounded bg-sky-600 px-4 py-2 text-sm text-white font-semibold hover:bg-sky-700 transition"
           onClick={() => handleGenerate(1)}
         >
-          Generate UUID
+          {t("uuid_generate_single")}
         </button>
         <button
           type="button"
           className="rounded bg-emerald-600 px-4 py-2 text-sm text-white font-semibold hover:bg-emerald-700 transition"
           onClick={() => handleGenerate(5)}
         >
-          Generate 5 UUIDs
+          {t("uuid_generate_5")}
         </button>
         <button
           type="button"
           className="rounded bg-indigo-600 px-4 py-2 text-sm text-white font-semibold hover:bg-indigo-700 transition"
           onClick={() => handleGenerate(10)}
         >
-          Generate 10 UUIDs
+          {t("uuid_generate_10")}
         </button>
         <button
           type="button"
           className="rounded bg-slate-200 px-4 py-2 text-sm text-slate-700 font-semibold hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600 transition"
           onClick={handleClear}
         >
-          Clear results
+          {t("uuid_clear")}
         </button>
         <button
           type="button"
@@ -84,13 +82,13 @@ export default function UUIDGeneratorClient() {
           onClick={handleCopyAll}
           disabled={uuids.length === 0}
         >
-          {copiedAll ? "Copied!" : "Copy All"}
+          {copiedAll ? t("copied") : t("uuid_copy_all")}
         </button>
       </div>
       <div className="space-y-2">
         {uuids.length === 0 && (
           <div className="text-slate-500 dark:text-slate-400 text-sm italic">
-            Generated UUIDs will appear here.
+            {t("uuid_placeholder_results")}
           </div>
         )}
         {uuids.map((uuid, idx) => (
@@ -104,7 +102,7 @@ export default function UUIDGeneratorClient() {
               className="rounded bg-sky-500 px-3 py-1 text-xs text-white font-semibold hover:bg-sky-600 transition"
               onClick={() => handleCopy(uuid, idx)}
             >
-              {copiedIndex === idx ? "Copied!" : "Copy"}
+              {copiedIndex === idx ? t("copied") : t("uuid_copy")}
             </button>
           </div>
         ))}
