@@ -3,23 +3,12 @@ import AdPlaceholder from "../../components/AdPlaceholder";
 import JWTDecoderClient from "./JWTDecoderClient";
 import JWTDecoderHeader from "./JWTDecoderHeader";
 import JWTDecoderInfo from "./JWTDecoderInfo";
-import { getServerTranslation } from "../../../utils/getServerTranslation";
 
-export async function generateMetadata({ params, locale }: { params: any; locale?: string }) {
-  const t = getServerTranslation(locale || "en");
-  const title = `${t.jwtDecoder_label || t.jwtDecoder_label} – ${t.jwtDecoder_desc || t.jwtDecoder_label}`;
-  return {
-    title,
-    description: t.jwtDecoder_desc || "",
-    alternates: {
-      languages: {
-        en: "/tools/jwt-decoder",
-        pt: "/pt/tools/jwt-decoder",
-        es: "/es/tools/jwt-decoder",
-      },
-    },
-  };
-}
+export const metadata = {
+  title: "JWT Decoder – Free Online JSON Web Token Decoder",
+  description:
+    "Decode JWT tokens instantly with this free online JWT decoder. View header and payload data securely in your browser.",
+};
 
 export default function JWTDecoderPage() {
   return (
